@@ -13,10 +13,12 @@ body {
 }
 
 /* O container principal que vai alinhar tudo */
+/* O container principal que vai alinhar tudo */
 .container {
     width: 640px; /* Largura padrão de jogo antigo */
     border: 4px solid #fff;
     padding: 20px;
+    position: relative; /* <<<<<<< ADICIONE ESTA LINHA! */
 }
 
 /* A caixa de diálogo */

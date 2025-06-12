@@ -23,16 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         soulHeart.style.display = 'block';
         // Posiciona a alma um pouco antes do texto do botão
-        soulHeart.style.top = `${rect.top - containerRect.top + 8}px`;
+        soulHeart.style.top = `${rect.top - containerRect.top + 11}px`;
         soulHeart.style.left = `${rect.left - containerRect.left - 25}px`;
     }
 
     // --- MENSAGENS PERSONALIZADAS ---
     // Altere as frases abaixo para deixar a sua cara!
-    const initialMessage = "* Um amigo selvagem aparece.";
+    const initialMessage = "* Um san-.. digo.. um ArTHUR shiny apareceu! CADE MEU KFC!!";
     const actMessage = "* Você checa seu amigo. ATK 10 DEF 10. Um cara incrível, ótimo em games (melhor que o Wuallan) e um irmão pra todas as horas.";
     const itemMessage = "* Você abre seu inventário... Você oferece a ele um Sans! Ele parece.... feliz? kk";
-    const mercyMessage = "* Você escolheu POUPAR. Vocês venceram! Ganhou 0 EXP e uma amizade que vale mais que tudo.";
+    const mercyMessage = "* Você escolheu POUPAR. Vocês venceram! Ganhou 0 EXP e uma irmandade que vale mais do que qualquer love...";
     
     // Adicionando os eventos aos botões
     actButton.addEventListener('click', () => {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     itemButton.addEventListener('click', () => {
         typeWriter(itemMessage);
-    });F
+    });
 
     mercyButton.addEventListener('click', () => {
         typeWriter(mercyMessage);
