@@ -1,4 +1,4 @@
-/* Configurações globais, definindo a fonte e as cores padrão */
+/* Configurações globais */
 body {
     background-color: #000;
     color: #fff;
@@ -9,104 +9,109 @@ body {
     justify-content: center;
     min-height: 100vh;
     margin: 0;
-    font-size: 18px; /* Tamanho base da fonte */
+    font-size: 18px;
+    overflow: hidden;
 }
 
-/* O container principal que vai alinhar tudo */
-/* O container principal que vai alinhar tudo */
+/* Container principal */
 .container {
-    width: 640px; /* Largura padrão de jogo antigo */
+    width: 640px;
     border: 4px solid #fff;
     padding: 20px;
-    position: relative; /* <<<<<<< ADICIONE ESTA LINHA! */
+    position: relative;
 }
 
-/* A caixa de diálogo */
+/* Caixa de diálogo simplificada */
 .dialogue-box {
     border: 4px solid #fff;
-    padding: 15px;
-    display: flex;
-    align-items: flex-start;
-    gap: 15px; /* Espaço entre o sprite e o texto */
+    padding: 25px;
     min-height: 100px;
-}
-
-.char-sprite {
-    width: 60px;
-    height: 60px;
-    image-rendering: pixelated; /* Mantém a imagem pixelada sem borrar */
 }
 
 #dialogue-text {
     margin: 0;
-    line-height: 1.5; /* Espaçamento entre linhas */
+    line-height: 1.5;
 }
 
-/* O menu de batalha */
-.battle-menu {
+/* Arena de Batalha */
+#battle-box {
+    width: 580px;
+    height: 150px;
+    border: 4px solid #fff;
+    margin: 20px auto 0;
+    display: none;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Painel inferior com botões e HP */
+.bottom-panel {
     margin-top: 20px;
     border: 4px solid #fff;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-}
-
-.options {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-}
-
-.menu-button {
-    background: none;
-    border: none;
-    color: #fff;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 18px;
-    cursor: pointer;
-    position: relative; /* Para posicionar a alma */
-}
-
-/* Efeito ao passar o mouse, para parecer que selecionou */
-.menu-button:hover {
-    color: yellow;
-}
-
-/* A alma que se move para o botão selecionado */
-.soul-heart {
-    position: absolute;
-    width: 20px;
-    image-rendering: pixelated;
-    transition: all 0.2s ease-in-out; /* Animação suave */
-    /* A posição será definida pelo JavaScript */
-    display: none; /* Começa escondida */
-}
-
-/* Informações de HP */
-.hp-info {
-    padding: 10px 20px;
-    text-align: right;
-}
-
-.hp-info p {
-    margin: 5px 0;
-}
-
-.hp-bar-container {
-    display: flex;
     align-items: center;
-    gap: 10px;
 }
 
-.hp-bar {
-    width: 100px;
-    height: 20px;
-    background-color: yellow;
-    border: 2px solid #fff;
-}
+.options { display: flex; gap: 20px; }
+.menu-button { background: none; border: none; color: #fff; font-family: 'Press Start 2P', cursive; font-size: 18px; cursor: pointer; }
+.menu-button:hover { color: yellow; }
+.hp-info { text-align: right; }
+.hp-info p { margin: 5px 0; font-size: 16px; }
+.hp-bar-container { display: flex; align-items: center; gap: 10px; }
+.hp-bar-background { width: 100px; height: 20px; background-color: #555; border: 2px solid #fff; }
+.hp-bar { width: 100%; height: 100%; background-color: yellow; transition: width 0.5s ease; }
+
+/* Alma e Animações */
+.soul-heart { position: absolute; width: 20px; image-rendering: pixelated; display: none; }
+.soul-invincible { animation: blink 0.2s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Ataques */
+.attack { position: absolute; background-color: #fff; width: 20px; height: 100px; }
 
 /* Rodapé */
-footer {
-    margin-top: 20px;
-    font-size: 12px;
-    color: #888;
+footer { margin-top: 20px; font-size: 12px; color: #888; }
+
+
+/* === CONTROLES PARA MOBILE === */
+#mobile-controls {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.d-pad {
+    display: grid;
+    grid-template-columns: 50px 50px 50px;
+    grid-template-rows: 50px 50px 50px;
+    gap: 5px;
+}
+
+.arrow-button {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none; /* Impede seleção de texto ao tocar */
+}
+.arrow-button:active {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+#arrow-up { grid-column: 2; grid-row: 1; }
+#arrow-left { grid-column: 1; grid-row: 2; }
+#arrow-right { grid-column: 3; grid-row: 2; }
+#arrow-down { grid-column: 2; grid-row: 3; }
+
+/* Media Query: Mostra os controles em telas menores */
+@media (max-width: 768px) {
+    .container { width: 90%; } /* Ajusta o container principal para telas pequenas */
+    #mobile-controls { display: block; }
 }
