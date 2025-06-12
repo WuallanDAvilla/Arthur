@@ -1,64 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
     <title>Hapi burtiday GuriThur!</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <main class="container">
-        <!-- Caixa de Diálogo (sem Frisk) -->
-        <div class="dialogue-box">
-            <p id="dialogue-text"></p>
+      <!-- Caixa de Diálogo com indicador de "próximo" -->
+      <div class="dialogue-box" id="dialogue-box">
+        <p id="dialogue-text"></p>
+        <span id="next-indicator" class="hidden">▼</span>
+      </div>
+      <!-- Arena de Batalha -->
+      <div id="battle-box"></div>
+      <!-- Painel Inferior -->
+      <div class="bottom-panel">
+        <div class="options">
+          <button class="menu-button" id="act-button">* AGIR</button>
+          <button class="menu-button" id="item-button">* ITEM</button>
+          <button class="menu-button" id="mercy-button">* POUPAR</button>
         </div>
-
-        <!-- Arena de Batalha (fica escondida até a luta) -->
-        <div id="battle-box">
-            <!-- A alma será movida para cá pelo JavaScript -->
-        </div>
-
-        <!-- Painel Inferior que organiza botões e HP -->
-        <div class="bottom-panel">
-            <div class="options">
-                <button class="menu-button" id="act-button">* AGIR</button>
-                <button class="menu-button" id="item-button">* ITEM</button>
-                <button class="menu-button" id="mercy-button">* POUPAR</button>
+        <div class="hp-info">
+          <p>Thur LV 1</p>
+          <div class="hp-bar-container">
+            <p>HP</p>
+            <div class="hp-bar-background">
+              <div id="hp-bar" class="hp-bar"></div>
             </div>
-            <div class="hp-info">
-                <p>Thur LV 1</p>
-                <div class="hp-bar-container">
-                    <p>HP</p>
-                    <div class="hp-bar-background">
-                        <div id="hp-bar" class="hp-bar"></div>
-                    </div>
-                    <p><span id="hp-text">20</span></p>
-                </div>
-            </div>
+            <p id="hp-text">20 / 20</p>
+          </div>
         </div>
-
-        <!-- Alma -->
-        <img src="heart.png" alt="Alma" class="soul-heart">
+      </div>
+      <!-- Alma -->
+      <img src="heart.png" alt="Alma" class="soul-heart" />
     </main>
 
-    <footer>
-        <p>WuallanD'Avilla para ArthurRodrigues</p>
+    <footer id="footer">
+      <p>WuallanD'Avilla para ArthurRodrigues</p>
     </footer>
 
-    <!-- CONTROLES PARA DISPOSITIVOS MÓVEIS -->
+    <!-- Controles Mobile -->
     <div id="mobile-controls">
-        <div class="d-pad">
-            <button class="arrow-button" id="arrow-up">▲</button>
-            <button class="arrow-button" id="arrow-left">◄</button>
-            <button class="arrow-button" id="arrow-right">►</button>
-            <button class="arrow-button" id="arrow-down">▼</button>
-        </div>
+      <div class="d-pad">
+        <button class="arrow-button" id="arrow-up">▲</button>
+        <button class="arrow-button" id="arrow-left">◄</button>
+        <button class="arrow-button" id="arrow-right">►</button>
+        <button class="arrow-button" id="arrow-down">▼</button>
+      </div>
     </div>
 
+    <!-- TELA DE GAME OVER -->
+    <div id="game-over-screen" class="hidden">
+      <p id="game-over-message"></p>
+      <button class="menu-button" id="retry-button">* Tentar Novamente</button>
+    </div>
+
+    <!-- TELA DE BLOQUEIO DE ORIENTAÇÃO -->
+    <div id="orientation-lock" class="hidden">
+      <p>Por favor, vire o celular para jogar!</p>
+    </div>
+
+    <audio
+      id="battle-music"
+      loop
+      src="https://archive.org/download/undertale-ost-071-undertale/71.%20sans..mp3"
+      preload="auto"
+    ></audio>
+
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
