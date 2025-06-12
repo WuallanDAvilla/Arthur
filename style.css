@@ -176,69 +176,11 @@ footer {
   grid-column: 2;
   grid-row: 3;
 }
-#battle-music {
-  display: none;
-}
-#game-over-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-#game-over-message {
-  font-size: 24px;
-  line-height: 1.5;
-  margin-bottom: 40px;
-}
-#retry-button {
-  font-size: 20px;
-}
-
-/* --- NOVO: Estilos da tela de Bloqueio de Orientação --- */
-#orientation-lock {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  z-index: 1000; /* Acima de tudo */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-
 @media (max-width: 768px) {
-  /* Mostra controles mobile em telas pequenas no modo retrato */
-  @media (orientation: portrait) {
-    .container {
-      width: 90%;
-    }
-    #mobile-controls {
-      display: block;
-    }
+  .container {
+    width: 90%;
   }
-
-  /* Ativa a tela de bloqueio em telas pequenas no modo paisagem */
-  @media (orientation: landscape) {
-    #orientation-lock {
-      display: flex !important;
-    } /* Usa !important para garantir a sobreposição */
-    .container,
-    footer,
-    #mobile-controls {
-      display: none !important;
-    }
+  #mobile-controls {
+    display: block;
   }
 }

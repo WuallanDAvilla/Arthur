@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- ELEMENTOS DO HTML ---
-  const battleMusic = document.getElementById("battle-music"),
-    dialogueBox = document.getElementById("dialogue-box"),
+  const dialogueBox = document.getElementById("dialogue-box"),
     dialogueText = document.getElementById("dialogue-text"),
     nextIndicator = document.getElementById("next-indicator"),
     actButton = document.getElementById("act-button"),
@@ -18,11 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       down: document.getElementById("arrow-down"),
       left: document.getElementById("arrow-left"),
       right: document.getElementById("arrow-right"),
-    },
-    footer = document.getElementById("footer"),
-    gameOverScreen = document.getElementById("game-over-screen"),
-    gameOverMessage = document.getElementById("game-over-message"),
-    retryButton = document.getElementById("retry-button");
+    };
 
   // --- ESTADO DO JOGO ---
   const maxHP = 20;
@@ -30,27 +25,25 @@ document.addEventListener("DOMContentLoaded", () => {
     isPlayerTurn = true,
     waitingForNextTurnClick = false,
     isInvincible = false,
-    isGameOver = false,
     battleLoopId,
     soulPosition = { x: 0, y: 0 },
     activeAttacks = [];
   let lastActIndex = -1,
     lastItemIndex = -1,
     lastBattleStartIndex = -1,
-    lastBattleEndIndex = -1;
+    lastBattleEndIndex = -1; // NOVO: Controle anti-repetição
 
-  // --- CONTEÚDO DO JOGO ---
-  const gameOverText =
-    "Arthur, voce e o futuro dos memes e das amizades... tenha determinacao!";
+  // --- CONTEÚDO DO JOGO (ALEATÓRIO) ---
   const initialMessage =
     "* Thur, um san- digo... um arTHUR, bloqueia o caminho! VAIII CURINTIA!!!";
   const mercyMessage =
     "* Voce escolheu POUPAR. Voces venceram! Ganhou 0 EXP e uma irmandade que vale mais que qualquer LOVE... e um biscoito";
+
   const actMessages = [
     "* Voce checa Thur. ATK 10 DEF 10. Um irmao SANSacional, otimo em games (melhor que o Wuallan) e um parceiro pra todas as horas.",
     "* Voce tenta dizer a ele que Undertale 2 foi lancado. . . . . olhos dele brilham como estrelas",
     "* Voce tenta comecar a dancar, ele quer dancar com voce!",
-  ];
+  ]; // NOVO: Mensagem de dança
   const items = [
     {
       name: "Sans de Aniversario",
@@ -73,12 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
         takeDamage(5, true);
       },
     },
-  ];
+  ]; // NOVO: Yago
   const battleStartMessages = [
     "* Thur esta preparando seu ataque especial!",
     "* ThurGuri esta ataque preparando especial... pera ai, oque?...",
     "* O ar ao redor fica frio. Voce sente que vai ter um dia ruim.",
-  ];
+  ]; // NOVO: Mensagem do ataque difícil
   const battleEndMessages = [
     "* Ufa! O cara ta me querendo que eu jogue no vasco! O ataque especial acabou. O que voce fara?",
     "* Ele esta cantarolando uma musica reconfortante...",
@@ -113,23 +106,9 @@ document.addEventListener("DOMContentLoaded", () => {
       else startBattlePhase();
     });
   }
-  function handleGameOver() {
-    isGameOver = true;
-    battleMusic.pause();
-    cancelAnimationFrame(battleLoopId);
-    mainContainer.classList.add("hidden");
-    footer.classList.add("hidden");
-    mobileControls.up.parentElement.parentElement.classList.add("hidden");
-    gameOverScreen.classList.remove("hidden");
-    typeWriter.call({ innerHTML: "" }, gameOverText, () => {
-      gameOverMessage.innerHTML = gameOverText.innerHTML;
-    });
-  }
 
   // --- LÓGICA DE BATALHA ---
   function setupBattle() {
-    battleMusic.currentTime = 0;
-    battleMusic.play();
     isPlayerTurn = false;
     bottomPanel.style.display = "none";
     battleBox.style.display = "block";
@@ -173,8 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(endBattlePhase, 6000);
   }
   function endBattlePhase() {
-    if (isGameOver) return;
-    battleMusic.pause();
     cancelAnimationFrame(battleLoopId);
     isPlayerTurn = true;
     bottomPanel.style.display = "flex";
@@ -187,12 +164,13 @@ document.addEventListener("DOMContentLoaded", () => {
     typeWriter(message);
   }
   function takeDamage(amount, bypassInvincibility = false) {
-    if (isGameOver || (isInvincible && !bypassInvincibility)) return;
+    if (isInvincible && !bypassInvincibility) return;
     currentHP = Math.max(0, currentHP - amount);
     updateHPDisplay();
     if (currentHP <= 0) {
-      handleGameOver();
-      return;
+      mercyMessage =
+        "* Voce nao aguenta mais... mas sua amizade te enche de DETERMINACAO.";
+      takeDamage = () => {};
     }
     isInvincible = true;
     soulHeart.classList.add("soul-invincible");
@@ -202,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1500);
   }
   function createAttack(x, y, dir, dmg) {
-    if (isGameOver) return;
     const el = document.createElement("div");
     el.className = "attack";
     battleBox.appendChild(el);
@@ -243,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
     }
     let newIndex;
-    if (array.length < 2) return 0;
+    if (array.length === 1) return 0;
     do {
       newIndex = Math.floor(Math.random() * array.length);
     } while (newIndex === lastIndex);
@@ -255,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hpBar.style.width = `${(currentHP / maxHP) * 100}%`;
   }
   function moveSoulToButton(button) {
-    if (!isPlayerTurn || isGameOver) return;
+    if (!isPlayerTurn) return;
     const rect = button.getBoundingClientRect(),
       containerRect = mainContainer.getBoundingClientRect();
     soulHeart.style.display = "block";
@@ -263,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     soulHeart.style.left = `${rect.left - containerRect.left - 25}px`;
   }
   function handleSoulMovement(direction) {
-    if (isPlayerTurn || isGameOver) return;
+    if (isPlayerTurn) return;
     const speed = 7;
     switch (direction) {
       case "up":
@@ -282,7 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSoulPosition();
   }
   function battleLoop() {
-    if (isGameOver) return;
     for (let i = activeAttacks.length - 1; i >= 0; i--) {
       const attack = activeAttacks[i],
         speed = 3;
@@ -337,13 +313,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   actButton.addEventListener("click", () => {
-    if (isPlayerTurn && !isGameOver) {
+    if (isPlayerTurn) {
       const message = actMessages[getRandomUnique("act")];
       typeWriter(message, "waitForClick");
     }
   });
   itemButton.addEventListener("click", () => {
-    if (isPlayerTurn && !isGameOver) {
+    if (isPlayerTurn) {
       const item = items[getRandomUnique("item")];
       item.effect();
       updateHPDisplay();
@@ -351,9 +327,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   mercyButton.addEventListener("click", () => {
-    if (isPlayerTurn && !isGameOver) typeWriter(mercyMessage);
+    if (isPlayerTurn) typeWriter(mercyMessage);
   });
-  retryButton.addEventListener("click", () => location.reload());
   document.addEventListener("keydown", (e) => {
     switch (e.key) {
       case "ArrowUp":
